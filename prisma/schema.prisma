@@ -1,0 +1,65 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id    Int     @id @default(autoincrement())
+  email String  @unique
+  name  String?
+  bets  Bet[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Match {
+  id        Int     @id @default(autoincrement())
+  homeTeam  String
+  awayTeam  String
+  date      DateTime
+  league    String
+  bets      Bet[]
+  predictions Prediction[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Bet {
+  id        Int     @id @default(autoincrement())
+  userId    Int
+  user      User    @relation(fields: [userId], references: [id])
+  matchId   Int
+  match     Match   @relation(fields: [matchId], references: [id])
+  amount    Float
+  odds      Float
+  status    String  @default("pending")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Prediction {
+  id        Int     @id @default(autoincrement())
+  matchId   Int
+  match     Match   @relation(fields: [matchId], references: [id])
+  prediction String
+  confidence Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+model Coupon {
+  id         Int      @id @default(autoincrement())
+  code       String   @unique
+  selections Json
+  stake      Float    @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
