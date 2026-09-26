@@ -1,4 +1,4 @@
-import { Bet, Match } from './data';
+import { Bet } from './data';
 
 class BetStore {
   private bets: Bet[] = [];
