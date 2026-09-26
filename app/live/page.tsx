@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import CouponBar from '../../components/CouponBar';
-import { Icon, TeamBadge } from '../../components/Icons';
+import { TeamBadge } from '../../components/Icons';
 import { useState } from 'react';
 
 type LiveMatch = {
